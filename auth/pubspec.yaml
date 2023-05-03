@@ -1,0 +1,16 @@
+name: auth
+description: Auth service
+version: 1.0.1
+
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  conduit: 4.2.0
+  jaguar_jwt: 3.0.0
+
+
+dev_dependencies:
+  lints: ^2.0.1
+  

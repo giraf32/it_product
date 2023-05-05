@@ -7,8 +7,10 @@ environment:
   sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
-  conduit: 4.2.0
+  conduit_core: 4.3.0
+  conduit_postgresql: ^4.3.0
   jaguar_jwt: 3.0.0
+  
 
 
 dev_dependencies:

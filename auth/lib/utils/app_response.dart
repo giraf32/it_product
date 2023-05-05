@@ -1,6 +1,6 @@
 import 'package:auth/models/response_model.dart';
-import 'package:conduit/conduit.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
+import 'package:conduit_core/conduit_core.dart';
 
 class AppResponse extends Response {
   AppResponse.serverError(dynamic error, {String? message})

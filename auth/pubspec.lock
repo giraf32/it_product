@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  conduit:
+    dependency: "direct main"
+    description:
+      name: conduit
+      sha256: d3d29d83b0dd73b477ce778ee65da1f3e55729af7d7de802576c9693390cf11b
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.9"
   conduit_codable:
     dependency: transitive
     description:
@@ -101,10 +109,10 @@ packages:
     dependency: "direct main"
     description:
       name: conduit_core
-      sha256: "925e3f5ee5e48525a327945fbd65a2595a13cf58486a09231df52207fb332d66"
+      sha256: "5bffd0480be315eaf2f878ae352694f77add318d1d90a20c78864be82714015e"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.0"
+    version: "4.3.8"
   conduit_isolate_exec:
     dependency: transitive
     description:
@@ -133,10 +141,10 @@ packages:
     dependency: "direct main"
     description:
       name: conduit_postgresql
-      sha256: a96b0d9349268c66cab796e63bda094bbad71940f4801d392161b988dc19f82b
+      sha256: "8deced694b52a7ab8af02181180ad117a61d3124fe1b1326366d15e5ecaf06b9"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.0"
+    version: "4.3.7"
   conduit_runtime:
     dependency: transitive
     description:
@@ -265,14 +273,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.1"
-  pub_cache:
-    dependency: transitive
-    description:
-      name: pub_cache
-      sha256: "6dda58dc069d153b7373977244ee6da4e6cb726c6e50903c1c4f278d0c111db5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.2"
   pub_semver:
     dependency: transitive
     description:

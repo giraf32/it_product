@@ -19,11 +19,14 @@ class AppPostController extends ResourceController {
     try {
       final id = AppUtils.getIdFromHeader(header);
       final qGetPosts = Query<Post>(managedContext)
+        //..pageBy((x) => x.id, QuerySortOrder.descending)
+        ..sortBy((x) => x.id, QuerySortOrder.descending)
         ..where((x) => x.author?.id).equalTo(id)
         ..fetchLimit = fetchLimit
         ..offset = offset;
+
       final List<Post> posts = await qGetPosts.fetch();
-      if (posts.isEmpty) return AppResponse.ok(message:'Посты не найдены');
+      if (posts.isEmpty) return AppResponse.ok(message: 'Посты не найдены');
       return Response.ok(posts);
     } catch (error) {
       return AppResponse.serverError(error, message: 'Ошибка получения постов');
@@ -34,14 +37,13 @@ class AppPostController extends ResourceController {
   Future<Response> creatPost(
       @Bind.header(HttpHeaders.authorizationHeader) String header,
       @Bind.body() Post post) async {
-    
-      if (post.content == null ||
-          post.content?.isEmpty == true ||
-          post.name == null ||
-          post.name?.isEmpty == true) {
-      return  AppResponse.badRequest(message: "Поля content и name обязательны");
-      }
-      try {
+    if (post.content == null ||
+        post.content?.isEmpty == true ||
+        post.name == null ||
+        post.name?.isEmpty == true) {
+      return AppResponse.badRequest(message: "Поля content и name обязательны");
+    }
+    try {
       final id = AppUtils.getIdFromHeader(header);
       final author = await managedContext.fetchObjectWithID<Author>(id);
       if (author == null) {
@@ -52,8 +54,7 @@ class AppPostController extends ResourceController {
       final qCreatePost = Query<Post>(managedContext)
         ..values.author?.id = id
         ..values.name = post.name
-        ..values.preContent =
-            post.content?.substring(0, size <= 20 ? size : 20)
+        ..values.preContent = post.content?.substring(0, size <= 20 ? size : 20)
         ..values.content = post.content;
 
       await qCreatePost.insert();

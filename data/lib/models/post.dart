@@ -10,6 +10,7 @@ class _Post {
   String? content;
   String? preContent;
   String? name;
+  DateTime? dueData;
   @Relate(#postList, isRequired: true, onDelete: DeleteRule.cascade)
   Author? author;
 }

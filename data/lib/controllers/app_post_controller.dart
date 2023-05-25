@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:async';
 import 'dart:io';
 import 'package:conduit_core/conduit_core.dart';
 import 'package:data/utils/app_response.dart';
@@ -8,36 +8,58 @@ import 'package:data/utils/app_utils.dart';
 
 class AppPostController extends ResourceController {
   final ManagedContext managedContext;
-
+ 
   AppPostController(this.managedContext);
-  DateTime? postWeGot;
+  
 
   @Operation.get()
   Future<Response> getPosts(
     @Bind.header(HttpHeaders.authorizationHeader) String header,
     @Bind.query('fetchLimit') int fetchLimit,
-    // @Bind.query('offset') int offset,
+    
   ) async {
     try {
       final id = AppUtils.getIdFromHeader(header);
       final qGetPosts = Query<Post>(managedContext)
         ..where((x) => x.author?.id).equalTo(id)
-        ..pageBy((x) => x.dueData, QuerySortOrder.descending,
-            boundingValue: postWeGot)
-        //..sortBy((x) => x.id, QuerySortOrder.descending)
-        // ..where((x) => x.author?.id).equalTo(id)
+        ..pageBy((x) => x.dueData, QuerySortOrder.descending)
         ..fetchLimit = fetchLimit;
-      //..offset = offset;
 
       final List<Post> posts = await qGetPosts.fetch();
-      postWeGot = posts.last.dueData;
-     // debugger(message: '$postWeGot test');
+     
       if (posts.isEmpty) return AppResponse.ok(message: 'Посты не найдены');
       return Response.ok(posts);
     } catch (error) {
       return AppResponse.serverError(error, message: 'Ошибка получения постов');
     }
   }
+   @Operation.get('dateTime')
+  Future<Response> getNextPosts(
+    @Bind.header(HttpHeaders.authorizationHeader) String header,
+    @Bind.query('fetchLimit') int fetchLimit,
+    @Bind.path('dateTime') DateTime dateTime
+    // @Bind.query('offset') int offset,
+  ) async {
+    try {
+      final id = AppUtils.getIdFromHeader(header);
+      final qGetPosts = Query<Post>(managedContext)
+        ..where((x) => x.author?.id).equalTo(id)
+        ..pageBy((x) => x.dueData, QuerySortOrder.descending, boundingValue: dateTime)
+        ..fetchLimit = fetchLimit;
+
+      final List<Post> posts = await qGetPosts.fetch();
+      DateTime? lastPost = posts.last.dueData;
+
+      print('$lastPost testPosts');
+      //print('$postFirst testPostsFirst');
+
+      if (posts.isEmpty) return AppResponse.ok(message: 'Посты не найдены');
+      return Response.ok(posts);
+    } catch (error) {
+      return AppResponse.serverError(error, message: 'Ошибка получения постов');
+    }
+  }
+
 
   @Operation.post()
   Future<Response> creatPost(
@@ -60,6 +82,7 @@ class AppPostController extends ResourceController {
       final qCreatePost = Query<Post>(managedContext)
         ..values.author?.id = id
         ..values.name = post.name
+        ..values.test = '1'
         ..values.dueData = DateTime.now()
         ..values.preContent = post.content?.substring(0, size <= 20 ? size : 20)
         ..values.content = post.content;

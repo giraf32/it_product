@@ -1,10 +1,9 @@
-
 import 'package:conduit_core/conduit_core.dart';
 import 'package:data/utils/app_env.dart';
+import 'controllers/app_paging_post.dart';
 import 'controllers/app_post_controller.dart';
 import 'controllers/app_token_controller.dart';
 import 'package:conduit_postgresql/conduit_postgresql.dart';
-
 
 class AppService extends ApplicationChannel {
   late final ManagedContext managedContext;
@@ -21,10 +20,19 @@ class AppService extends ApplicationChannel {
   }
 
   @override
-  Controller get entryPoint => Router()
-    ..route('posts/[:id]')
+  Controller get entryPoint {
+    final router = Router();
+    router
+        .route('posts/[:id]')
         .link(() => AppTokenController())!
         .link(() => AppPostController(managedContext));
+    router
+        .route('posts/next/:fetchLimit/:dateTime')
+        .link(() => AppTokenController())!
+        .link(() => AppPagingPost(managedContext));
+
+    return router;
+  }
 
   // Для взаимодействия с базой данных PostgreSQL
   PostgreSQLPersistentStore _initDatabase() {

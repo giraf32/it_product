@@ -8,8 +8,11 @@ class _Post {
   int? id;
   @Column(omitByDefault: true)
   String? content;
+  @Column(omitByDefault: true)
+  String? test;
   String? preContent;
   String? name;
+  @Column(indexed: true)
   DateTime? dueData;
   @Relate(#postList, isRequired: true, onDelete: DeleteRule.cascade)
   Author? author;

@@ -9,7 +9,6 @@ class _Post {
   @Column(omitByDefault: true)
   String? content;
   @Column(omitByDefault: true)
-  String? test;
   String? preContent;
   String? name;
   @Column(indexed: true)

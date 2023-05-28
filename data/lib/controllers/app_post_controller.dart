@@ -82,7 +82,6 @@ class AppPostController extends ResourceController {
       final qCreatePost = Query<Post>(managedContext)
         ..values.author?.id = id
         ..values.name = post.name
-        ..values.test = '1'
         ..values.dueData = DateTime.now()
         ..values.preContent = post.content?.substring(0, size <= 20 ? size : 20)
         ..values.content = post.content;

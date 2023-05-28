@@ -28,9 +28,9 @@ class AppPagingPost extends ResourceController {
         ..fetchLimit = fetchLimit;
 
       final List<Post> posts = await qGetPosts.fetch();
-      DateTime? lastPost = posts.last.dueData;
+     // DateTime? lastPost = posts.last.dueData;
 
-      print('$lastPost testPosts');
+     // print('$lastPost testPosts');
       //print('$postFirst testPostsFirst');
 
       if (posts.isEmpty) return AppResponse.ok(message: 'Посты не найдены');
